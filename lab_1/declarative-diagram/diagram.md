@@ -1,0 +1,55 @@
+erDiagram
+	direction TB
+	MESSAGE {
+		PrimaryKey id  ""  
+		string content  ""  
+		boolean isEdited  ""  
+	}
+
+	FILE {
+		PrimaryKey id  ""  
+		type string  ""  
+		url string  ""  
+	}
+
+	CHAT {
+		PrimaryKey id  ""  
+		string name  ""  
+		string tag  ""  
+		optional_string avatarUrl  ""  
+		optional_string description  ""  
+	}
+
+	USER {
+		PrimaryKey id  ""  
+		string nickname  ""  
+		string tag  ""  
+		string description  ""  
+		string email  ""  
+		optional_string bio  ""  
+		optional_string avatarUrl  ""  
+		optional_Data birthdate  ""  
+	}
+
+	REACTION {
+		PrimaryKey id  ""  
+	}
+
+	MEMBERS {
+		PrimaryKey id  ""  
+		string role  ""  
+	}
+
+	REACTION_TYPE {
+		string iconSrc  ""  
+		string label  ""  
+		string tag  ""  
+	}
+
+	MESSAGE||--o{FILE:"contains"
+	CHAT||--o{MESSAGE:"contains"
+	USER||--o{MESSAGE:"created"
+	REACTION_TYPE||--o{REACTION:"have"
+	MESSAGE||--o{REACTION:"contains"
+	CHAT||--o{MEMBERS:"contains"
+    USER||--o{MEMBERS:"have"
