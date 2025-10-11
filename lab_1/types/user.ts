@@ -1,4 +1,3 @@
-import { Image } from "./image";
 import { Member } from "./chat";
 
 export interface User {
@@ -7,7 +6,7 @@ export interface User {
     tag: string;
     email: string;
     password: string;
-    avatar?: Image;
+    avatarUrl?: string;
     bio?: string;
     birthdate?: Date;
     members: Member[];

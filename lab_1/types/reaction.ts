@@ -1,4 +1,3 @@
-import { Image } from "./image";
 
 
 export interface Reaction {
@@ -9,7 +8,7 @@ export interface Reaction {
 
 export interface ReactionType {
     id: number;
-    icon: Image;
+    icon: string;
     label: string;
     tag: string;
 }
