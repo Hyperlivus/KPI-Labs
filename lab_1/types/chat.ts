@@ -1,4 +1,5 @@
-import {User} from "./user";
+import { User } from "./user";
+import { Message } from "./message";
 
 export enum Role {
     Admin = 'admin',
@@ -12,6 +13,8 @@ export interface Chat {
     tag: string;
     avatarUrl: string;
     description: string;
+    members: Member[];
+    messages: Message[];
 }
 
 export interface Member {

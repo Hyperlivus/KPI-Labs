@@ -1,4 +1,5 @@
 import { Image } from "./image";
+import { Member } from "./chat";
 
 export interface User {
     id: number;
@@ -9,5 +10,6 @@ export interface User {
     avatar?: Image;
     bio?: string;
     birthdate?: Date;
+    members: Member[];
 }
 
