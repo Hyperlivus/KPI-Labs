@@ -1,39 +1,38 @@
 sequenceDiagram
-        actor user as User
-        participant frontend as Frontend
-        participant auth as Auth Service
+    actor user as User
+    participant frontend as Frontend
+    participant auth as Auth Service
 
-        user ->> frontend: Enter register data
-        frontend ->> auth: Send register data [authApi.register]
-        auth ->> auth: validate register data [registerDto.validate]
-        alt register data invalid 
-           auth ->> frontend: send error
-           frontend ->> frontend: display error 
-           frontend ->> frontend: navigate to register
-        else register data valid
+    user ->> frontend: Enter register data
+    frontend ->> auth: Send register data [authApi.register]
+    auth ->> auth: validate register data [registerDto.validate]
+    alt register data invalid
+        auth ->> frontend: send error
+        frontend ->> frontend: display error
+        frontend ->> frontend: navigate to register
+    else register data valid
         auth ->> auth: create user [usersModule.create]
-        auth ->> frontend: send user 
-        frontend ->> frontend: navigate to verification code page 
+        auth ->> frontend: send user
+        frontend ->> frontend: navigate to verification code page
 
-        end
-        
-        auth ->> auth: generate verification code [otp.generate] 
-        create participant email as Email Service
+    end
 
-        auth -x email: pass verification code 
-                destroy email
-        email->> user: send verification code [emailModule.send]
+    auth ->> auth: generate verification code [otp.generate]
+    create participant email as Email Service
 
-        user ->> frontend: enter verification code
-        frontend -x auth: send verification code [authApi.sendVerificationCode]
-       
-        auth ->> auth: validatre verification code
-        alt verification code invalid
-          auth ->> frontend: send error
-          frontend ->> frontend: show error
-          frontend ->> frontend: navigate to verification code
-        else is equals with generated 
-          auth ->> frontend: report sucess
-        end  
-        frontend ->> frontend: naviate main page
-    
+    auth -x email: pass verification code
+    destroy email
+    email->> user: send verification code [emailModule.send]
+
+    user ->> frontend: enter verification code
+    frontend -x auth: send verification code [authApi.sendVerificationCode]
+
+    auth ->> auth: validatre verification code
+    alt verification code invalid
+        auth ->> frontend: send error
+        frontend ->> frontend: show error
+        frontend ->> frontend: navigate to verification code
+    else is equals with generated
+        auth ->> frontend: report sucess
+    end
+    frontend ->> frontend: naviate main page
