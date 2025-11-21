@@ -2,37 +2,40 @@ sequenceDiagram
     actor user as User
     participant frontend as Frontend
     participant auth as Auth Service
+    participant email as Email Service
+
 
     user ->> frontend: Enter register data
-    frontend ->> auth: Send register data [authApi.register]
-    auth ->> auth: validate register data [registerDto.validate]
+    frontend ->>+ auth: Send register data [authApi.register]
+    auth ->>+ auth: validate register data [registerDto.validate]
+
+    loop until the user enters the valid data data  
     alt register data invalid
-        auth ->> frontend: send error
+        auth ->>- frontend: send error
         frontend ->> frontend: display error
         frontend ->> frontend: navigate to register
     else register data valid
         auth ->> auth: create user [usersModule.create]
-        auth ->> frontend: send user
-        frontend ->> frontend: navigate to verification code page
-
+            auth ->> auth: generate verification code [otp.generate]
+            auth ->>+ email: pass verification code
+            auth ->>- frontend: send user
+            frontend ->> frontend: navigate to code verification page
+    end
     end
 
-    auth ->> auth: generate verification code [otp.generate]
-    create participant email as Email Service
-
-    auth -x email: pass verification code
-    destroy email
-    email->> user: send verification code [emailModule.send]
+    email->>- user: send verification code [emailModule.send]
 
     user ->> frontend: enter verification code
-    frontend -x auth: send verification code [authApi.sendVerificationCode]
+    frontend ->>+ auth: send verification code [authApi.sendVerificationCode]
 
     auth ->> auth: validatre verification code
+
+    loop until the user enters valid verification code
     alt verification code invalid
         auth ->> frontend: send error
         frontend ->> frontend: show error
-        frontend ->> frontend: navigate to verification code
     else is equals with generated
-        auth ->> frontend: report sucess
+        auth ->>- frontend: report sucess
+    end
     end
     frontend ->> frontend: naviate main page
