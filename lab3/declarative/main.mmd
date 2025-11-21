@@ -5,7 +5,7 @@ sequenceDiagram
     participant email as Email Service
 
 
-    user ->> frontend: Enter register data
+    user ->>+ frontend: Enter register data
     frontend ->>+ auth: Send register data [authApi.register]
     auth ->>+ auth: validate register data [registerDto.validate]
 
@@ -38,4 +38,4 @@ sequenceDiagram
         auth ->>- frontend: report sucess
     end
     end
-    frontend ->> frontend: naviate main page
+    frontend ->>- frontend: naviate main page

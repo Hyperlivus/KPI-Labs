@@ -1,0 +1,60 @@
+flowchart TD
+Guest((Guest))
+User((User))
+Member((Member))
+Admin((Admin))
+System((Messenger System))
+Chat((Chat System))
+
+
+
+
+LOGIN[Login]
+REGISTER[Sign up]
+LOGOUT[Log out]
+CREATE_CHAT[Create chat]
+JOIN_CHAT[Join chat]
+WRITE_MESSAGE[Write new message]
+EDIT_MESSAGE[Edit message]
+LEAVE_CHAT[Leave chat]
+ADD_MEMBER[Add new member to chat]
+EDIT_GROUP_INFO[Edit chat info]
+DELETE_MEMBER[Delete other member]
+CHECK_OWNERSHIP[Check that member own this message ]
+REACT[Add reaction to message]
+CHECK_PERMISION[Checking whether the admin has permission for this action]
+
+Guest --> LOGIN
+Guest --> REGISTER
+
+System --- LOGIN
+System --- REGISTER
+
+User --> LOGOUT
+User --> CREATE_CHAT
+User --> JOIN_CHAT
+
+System --- LOGOUT
+System --- CREATE_CHAT
+System --- JOIN_CHAT
+
+Member --> WRITE_MESSAGE
+Member --> EDIT_MESSAGE
+Member --> REACT
+EDIT_MESSAGE ==> |include|CHECK_OWNERSHIP
+
+Member --> LEAVE_CHAT
+
+Admin --> ADD_MEMBER
+Admin --> EDIT_GROUP_INFO
+Admin --> DELETE_OTHER_MEMBER
+
+ADD_MEMBER ==> |include| CHECK_PERMISION
+EDIT_GROUP_INFO ==> |include|CHECK_PERMISION
+DELETE_OTHER_MEMBER ==> |include|CHECK_PERMISION 
+
+Chat --- WRITE_MESSAGE
+Chat --- LEAVE_CHAT
+Chat --- EDIT_MESSAGE
+Chat --- CHECK_OWNERSHIP
+Chat --- REACT
