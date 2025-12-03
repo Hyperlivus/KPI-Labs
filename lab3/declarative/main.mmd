@@ -11,7 +11,7 @@ sequenceDiagram
 
     loop until the user enters the valid data data  
     alt register data invalid
-        auth ->>- frontend: send error
+        auth ->> frontend: send error
         frontend ->> frontend: display error
         frontend ->> frontend: navigate to register
     else register data valid
